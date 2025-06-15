@@ -1,54 +1,98 @@
-# React + TypeScript + Vite
-
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
-
-Currently, two official plugins are available:
-
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+### Should have prettier plugin
+```bash
+npm install prettier --save-dev
+```
+.prettierrc
+```json
+{
+  "semi": true,
+  "trailingComma": "es5",
+  "singleQuote": true,
+  "printWidth": 80,
+  "tabWidth": 2,
+  "useTabs": false,
+  "bracketSpacing": true,
+  "arrowParens": "avoid"
+}
+```
+test prettier
+```bash
+npx prettier --write ./src
+```
+test eslint
+```bash
+npx eslint ./src --ext .js,.jsx,.ts,.tsx --fix
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+### 加 eslint + prettier 檢查。(formating)
+1. 手動
+    
+    ```bash
+    # vite:
+        "prettier": "prettier --write ./src && eslint ./src --ext .js,.jsx,.ts,.tsx --fix",
+        "build": "npm run prettier && vite build",
+    # CRA , Next.js
+        "prettier": "npx prettier --write ./src && eslint --fix ./src",
+    ```
+    
+2. husky
+    
+    ```bash
+    npm install husky --save-dev
+    npx husky-init
+    
+    # auto add in package.json
+    "prepare": "husky install"
+    ```
+    
+    .husky/pre-commit
+    
+    ```bash
+    #!/usr/bin/env sh
+    . "$(dirname -- "$0")/_/husky.sh"
+    
+    npm run prettier
+    ```
+    
+3. push time for testing
+    
+    .husky/pre-push
+    
+    ```bash
+    #!/usr/bin/env sh
+    . "$(dirname -- "$0")/_/husky.sh"
+    
+    npm test
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+    # chmod +x .husky/pre-push
+    ```
+    
+4.  lint-staged - only check stage 
+    
+    ```bash
+    npm install lint-staged --save-dev
+    ```
+    
+    .lintstagedrc
+    
+    ```bash
+    {
+      "./src/**/*.{js,jsx,ts,tsx}": [
+        "prettier --write",
+        "eslint --fix"
+      ]
+    }
+    ```
+    
+    .husky/pre-commit
+    
+    ```bash
+    #!/usr/bin/env sh
+    . "$(dirname -- "$0")/_/husky.sh"
+    
+    npx lint-staged
+    ```
+    
+5.  如果任何命令失敗被中止。
+6.  避免使用 git commit --no-verify 來跳過檢查。
 
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-})
-```
