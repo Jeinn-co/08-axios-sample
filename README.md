@@ -13,3 +13,11 @@ tsconfig.app.json set for js，jsx compatible
   },
   "include": ["src", "**/*.js", "**/*.jsx"],
 ```
+
+
+```
+
+npm install axios
+npm install react-toastify
+
+```
