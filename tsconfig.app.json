@@ -21,7 +21,9 @@
     "noUnusedParameters": true,
     "erasableSyntaxOnly": true,
     "noFallthroughCasesInSwitch": true,
-    "noUncheckedSideEffectImports": true
+    "noUncheckedSideEffectImports": true,
+    "allowJs": true,
+    "checkJs": false,         // 若不希望檢查 JS 中型別錯誤可設 false
   },
-  "include": ["src"]
+  "include": ["src", "**/*.js", "**/*.jsx"],
 }
