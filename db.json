@@ -1,0 +1,48 @@
+{
+  "posts": [
+    {
+      "title": "第一篇文章",
+      "body": "這是第一篇文章的內容1",
+      "updatedAt": "2025-06-15T18:11:40.025Z",
+      "id": "1"
+    },
+    {
+      "id": "2",
+      "title": "第二篇文章",
+      "body": "這是第二篇文章的內容",
+      "createdAt": "2024-03-20T11:00:00.000Z"
+    },
+    {
+      "id": "3",
+      "title": "第三篇文章",
+      "body": "這是第三篇文章的內容",
+      "createdAt": "2024-03-20T12:00:00.000Z"
+    }
+  ],
+  "uploads": [
+    {
+      "id": "de09",
+      "name": "tt-1.jpg",
+      "size": 13981,
+      "type": "image/jpeg",
+      "createdAt": "2025-06-15T18:40:34.728Z",
+      "url": "blob:http://localhost:5173/6888fd90-0495-4981-b85f-cfcf54068026"
+    },
+    {
+      "id": "bc61",
+      "name": "tt-1.jpg",
+      "size": 13981,
+      "type": "image/jpeg",
+      "createdAt": "2025-06-15T18:43:23.412Z",
+      "url": "blob:http://localhost:5173/b3f7e68c-8815-4fe4-b1f8-7c41b34078ce"
+    },
+    {
+      "id": "9d94",
+      "name": "tt-1.jpg",
+      "size": 13981,
+      "type": "image/jpeg",
+      "createdAt": "2025-06-15T19:32:31.840Z",
+      "url": "https://ucarecdn.com/bc728de3-fb5b-4033-a0cd-2ebd16623c0b/"
+    }
+  ]
+}
