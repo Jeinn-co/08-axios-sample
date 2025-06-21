@@ -41,7 +41,8 @@ apiClient.interceptors.response.use(
     } else if (error.request) {
       toast.error('連線錯誤，伺服器無回應');
     } else {
-      toast.error(`請求發送錯誤：${error.message}`);
+      // toast.error(`請求發送錯誤：${error.message}`);
+      console.warn('Request error:', error.message);
     }
 
     return Promise.reject(error); // 讓呼叫端仍可用 try/catch 捕捉
