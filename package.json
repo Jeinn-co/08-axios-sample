@@ -10,7 +10,8 @@
     "prettier": "prettier --write ./src && eslint ./src --ext .js,.jsx,.ts,.tsx --fix",
     "build": "npm run prettier && tsc -b && vite build",
     "test": "echo 'Test ok!'",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "start:api": "json-server --watch db.json"
   },
   "dependencies": {
     "@uploadcare/upload-client": "^6.14.3",
