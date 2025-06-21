@@ -5,6 +5,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import Lightbox from 'yet-another-react-lightbox';
 import 'yet-another-react-lightbox/styles.css';
 import 'react-toastify/dist/ReactToastify.css';
+import { Toaster } from 'react-hot-toast';
 
 export default function CrudDemo() {
   const [file, setFile] = useState(null);
@@ -25,6 +26,12 @@ export default function CrudDemo() {
       abortFetchUploads();
     };
   }, []);
+
+  const cleanEditState = () => {
+    setEditingPost(null);
+    setEditTitle('');
+    setEditBody('');
+  };
 
   const fetchPosts = () => {
     const { promise, abort } = createAbortable(signal =>
@@ -66,14 +73,29 @@ export default function CrudDemo() {
         updatedAt: new Date().toISOString(),
       };
       await crud.put(`/posts/${id}`, updatedPost);
-      setEditingPost(null);
-      setEditTitle('');
-      setEditBody('');
+      cleanEditState();
       toast.success('更新文章成功');
       fetchPosts();
     } catch (err) {
       console.error('Update failed:', err);
       toast.error('更新文章失敗');
+    }
+  };
+
+  const handlePatch = async id => {
+    try {
+      const patchedData = {
+        title: editTitle,
+        body: editBody,
+        updatedAt: new Date().toISOString(),
+      };
+      await crud.patch(`/posts/${id}`, patchedData);
+      cleanEditState();
+      toast.success('部分更新文章成功');
+      fetchPosts();
+    } catch (err) {
+      console.error('Patch failed:', err);
+      toast.error('部分更新文章失敗');
     }
   };
 
@@ -120,6 +142,7 @@ export default function CrudDemo() {
 
   return (
     <div style={{ padding: 24 }}>
+      <Toaster />
       <div style={{ marginBottom: 20 }}>
         <button onClick={handleCreate}>新增文章</button>
       </div>
@@ -147,22 +170,38 @@ export default function CrudDemo() {
                     style={{ width: '100%', height: 100 }}
                   />
                 </div>
-                <button onClick={() => handleUpdate(post.id)}>儲存</button>
-                <button onClick={() => setEditingPost(null)}>取消</button>
+                <div
+                  style={{ display: 'flex', gap: 10, flexDirection: 'column' }}
+                >
+                  <button onClick={() => handleUpdate(post.id)}>儲存</button>
+                  <button onClick={() => handlePatch(post.id)}>部分更新</button>
+                  <button onClick={() => setEditingPost(null)}>取消</button>
+                </div>
               </div>
             ) : (
               <div>
                 <h4>{post.title}</h4>
                 <p>{post.body}</p>
-                <small>
-                  建立時間: {new Date(post.createdAt).toLocaleString()}
-                </small>
-                {post.updatedAt && (
-                  <small style={{ marginLeft: 10 }}>
-                    更新時間: {new Date(post.updatedAt).toLocaleString()}
+                <div
+                  style={{ display: 'flex', gap: 10, flexDirection: 'column' }}
+                >
+                  <small style={{ color: post.createdAt ? 'blue' : 'red' }}>
+                    建立時間: {new Date(post.createdAt).toLocaleString()}
                   </small>
-                )}
-                <div style={{ marginTop: 10 }}>
+                  {post.updatedAt && (
+                    <small style={{ color: 'green' }}>
+                      更新時間: {new Date(post.updatedAt).toLocaleString()}
+                    </small>
+                  )}
+                </div>
+                <div
+                  style={{
+                    marginTop: 10,
+                    display: 'flex',
+                    gap: 10,
+                    flexDirection: 'row',
+                  }}
+                >
                   <button
                     onClick={() => {
                       setEditingPost(post.id);
@@ -172,7 +211,12 @@ export default function CrudDemo() {
                   >
                     編輯
                   </button>
-                  <button onClick={() => handleDelete(post.id)}>刪除</button>
+                  <button
+                    onClick={() => handleDelete(post.id)}
+                    style={{ backgroundColor: 'red' }}
+                  >
+                    刪除
+                  </button>
                 </div>
               </div>
             )}

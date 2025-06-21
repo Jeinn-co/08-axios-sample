@@ -20,6 +20,7 @@
     "firebase": "^11.9.1",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
+    "react-hot-toast": "^2.5.2",
     "react-image-lightbox": "^5.1.4",
     "react-toastify": "^11.0.5",
     "uploadthing": "^7.7.2",

@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { toast } from 'react-toastify'; // 如果你用的是 react-toastify
+import { showToast } from '../utils/toastSingleton';
 
 const apiClient = axios.create({
   baseURL: 'http://localhost:3000', // JSON Server 的預設端口
@@ -39,7 +40,8 @@ apiClient.interceptors.response.use(
         );
       }
     } else if (error.request) {
-      toast.error('連線錯誤，伺服器無回應');
+      // toast.error('連線錯誤，伺服器無回應');
+      showToast('error', '連線錯誤，伺服器無回應');
     } else {
       // toast.error(`請求發送錯誤：${error.message}`);
       console.warn('Request error:', error.message);

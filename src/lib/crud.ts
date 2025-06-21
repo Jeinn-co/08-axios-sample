@@ -40,6 +40,9 @@ export const crud = {
   put: <T = unknown>(url: string, data: unknown, signal?: AbortSignal) =>
     apiClient.put<T>(url, data, { signal }).then(res => res.data),
 
+  patch: <T = unknown>(url: string, data: unknown, signal?: AbortSignal) =>
+    apiClient.patch<T>(url, data, { signal }).then(res => res.data),
+
   del: <T = unknown>(url: string, signal?: AbortSignal) =>
     apiClient.delete<T>(url, { signal }).then(res => res.data),
 };
