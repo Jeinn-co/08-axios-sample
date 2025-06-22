@@ -29,3 +29,10 @@ json-server --watch db.json --port 4000
 
 yarn start:api
 ```
+
+
+```
+npm i @uploadcare/upload-client
+```
+
+https://uploadcare.com/docs/uploading-files/#direct-uploads
